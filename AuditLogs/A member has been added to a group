@@ -12,6 +12,7 @@ AuditLogs
 | project TimeGenerated, IniatedBy, UserPrincipalName, Group, OperationName, Result 
 
 KQL Query: A member has been added to a specific group
+NOTE: Replace ''MyOffice365Group'' with your own group name
 
 AuditLogs
 | where Category == "GroupManagement" and OperationName == "Add member to group"
