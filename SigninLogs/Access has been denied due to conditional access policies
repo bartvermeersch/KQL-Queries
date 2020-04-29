@@ -1,0 +1,17 @@
+Title: Access has been blocked due to conditional access policies
+
+Description:
+This KQL query looks to see if a user has been denied access due to the conditional access policies.
+
+Data Source: SigninLogs
+
+Tactic: Initial Access
+
+KQL Query:
+
+SigninLogs
+| where OperationName == "Sign-in activity" 
+and ResultDescription =~ "Access has been blocked due to conditional access policies."
+| extend City = tostring(LocationDetails.city) 
+| extend State = tostring(LocationDetails.state)
+| project TimeGenerated, OperationName, ResultDescription, Identity, Location, City, State, IPAddress, AppDisplayName, ClientAppUsed
