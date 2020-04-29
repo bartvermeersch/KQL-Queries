@@ -1,0 +1,12 @@
+Title: A member has been added to a group
+
+Data Source: AuditLogs
+
+KQL Query:
+
+AuditLogs
+| where Category == "GroupManagement" and OperationName == "Add member to group"
+| extend IniatedBy = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName) 
+| extend UserPrincipalName = tostring(TargetResources[0].userPrincipalName) 
+| extend Group = tostring(parse_json(tostring(parse_json(tostring(TargetResources[0].modifiedProperties))[1].newValue))) 
+| project TimeGenerated, IniatedBy, UserPrincipalName, Group, OperationName, Result 
