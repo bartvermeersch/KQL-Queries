@@ -15,4 +15,14 @@ SigninLogs
 | extend City = tostring(LocationDetails.city) 
 | extend State = tostring(LocationDetails.state) 
 | where UserPrincipalName == "breakglass@contoso.com"
-| project TimeGenerated, Identity, Location, IPAddress, City, State, AppDisplayName, ClientAppUsed, ResultDescription
+| project TimeGenerated, Identity, Location, IPAddress, City, State, AppDisplayName, ClientAppUsed, ResultDescription, ResultType
+
+KQL Query: If you only want to monitor the breakglass account for successfull logins.
+NOTE: Replace breakglass@contoso.com to your own UPN account
+
+SigninLogs
+| where OperationName == "Sign-in activity" and ResultType == "50140"
+| extend City = tostring(LocationDetails.city) 
+| extend State = tostring(LocationDetails.state) 
+| where UserPrincipalName == "breakglass@contoso.com"
+| project TimeGenerated, Identity, Location, IPAddress, City, State, AppDisplayName, ClientAppUsed, ResultDescription, ResultType
