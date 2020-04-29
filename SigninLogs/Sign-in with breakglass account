@@ -1,0 +1,18 @@
+Title: Sign-in activity with a breakglass account.
+
+Description:
+Most organizations have at least one break-glass account for their Azure tenant. 
+This account doesn't contain strict (security) policies, so it is required to monitor it.
+
+Data Source: SigninLogs
+
+KQL Query:
+
+NOTE: Replace breakglass@contoso.com with the userprincipalname of your break-glass account.
+
+SigninLogs
+| where OperationName == "Sign-in activity"
+| extend City = tostring(LocationDetails.city) 
+| extend State = tostring(LocationDetails.state) 
+| where UserPrincipalName == "breakglass@contoso.com"
+| project TimeGenerated, Identity, Location, IPAddress, City, State, AppDisplayName, ClientAppUsed, ResultDescription
