@@ -21,7 +21,7 @@ KQL Query: If you only want to monitor the breakglass account for successfull lo
 NOTE: Replace breakglass@contoso.com to your own UPN account
 
 SigninLogs
-| where OperationName == "Sign-in activity" and ResultType == "50140"
+| where OperationName == "Sign-in activity" and ResultType == "0"
 | extend City = tostring(LocationDetails.city) 
 | extend State = tostring(LocationDetails.state) 
 | where UserPrincipalName == "breakglass@contoso.com"
