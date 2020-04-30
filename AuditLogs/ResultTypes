@@ -4,6 +4,8 @@ AuditLogs contains information, such as Sign-in activities.
 Every sign-in activity has a ''ResultType'' property that might be interesting to understand.
 Understanding the different ResultTypes will be useful to filter on specific sign-in logs.
 
+NOTE: There might be ResultTypes missing, so feel free to reach out if you see something missing.
+
 0: Successfull login
 
 50076: User did not pass the MFA challenge (non interactive).
@@ -18,13 +20,13 @@ Understanding the different ResultTypes will be useful to filter on specific sig
 
 50133: Session is invalid due to expiration or recent password change.
 
-500121: Other
+500121: Authentication failed during strong authentication request.
 
 50058: The application tried to perform a silent sign in and the user could not be silently signed in. The application needs to start an interactive flow giving users an option to sign in. Contact app owner.
 
-16000: Other
+16000: Either multiple user identities are available for the current request or selected account is not supported for the scenario.
 
-90094: Other
+90094: Administrator consent is required. The actual message content is runtime specific. Please see returned exception message for details.
 
 53003: Access has been blocked due to conditional access policies.
 
@@ -32,11 +34,11 @@ Understanding the different ResultTypes will be useful to filter on specific sig
 
 50097: Device Authentication Required - DeviceId -DeviceAltSecId claims are null OR no device corresponding to the device identifier exists.
 
-530032: Other
+530032: The tenant admin has configured a security policy that blocks this request. Check the security policies that are defined on the tenant level to determine if your request meets the policy requirements.
 
 50173: Fresh auth token is needed. Have the user re-sign using fresh credentials.
 
-50078: Other
+50078: Presented multi-factor authentication has expired due to policies configured by your administrator, you must refresh your multi-factor authentication to access '{resource}'.
 
 50079: User needs to enroll for second factor authentication.
 
@@ -44,7 +46,7 @@ Understanding the different ResultTypes will be useful to filter on specific sig
 
 50158: External security challenge was not satisfied.
 
-50201: Other
+50201: This message prompt interrupt will be shown to the user during login when additional information should be provided to user.
 
 50020: User is unauthorized - unable to issue tokens because of version issue - issuer name is not specified - problems with issuer name (null -max length). Contact the app owner.
 
@@ -53,6 +55,4 @@ Understanding the different ResultTypes will be useful to filter on specific sig
 65001: Application X doesn't have permission to access application Y or the permission has been revoked. Or The user or administrator has not consented to use the application with ID X. Send an interactive authorization request for this user and resource. Or The user or administrator has not consented to use the application with ID X. Send an authorization request to your tenant admin to act on behalf of the App : Y for Resource : Z.
 
 50057: User account is disabled. The account has been disabled by an administrator.
-
-
 
