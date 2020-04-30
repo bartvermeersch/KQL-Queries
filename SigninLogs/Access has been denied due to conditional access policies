@@ -9,9 +9,10 @@ Tactic: Initial Access
 
 KQL Query:
 
-let timeframe = 2d;
+let starttime = 14d;
+let endtime = 1d;
 SigninLogs
-| where TimeGenerated >= ago(timeframe)
+| where TimeGenerated between(ago(starttime)..ago(endtime))
 | where OperationName == "Sign-in activity" 
 and ResultDescription =~ "Access has been blocked due to conditional access policies."
 | extend City = tostring(LocationDetails.city) 
