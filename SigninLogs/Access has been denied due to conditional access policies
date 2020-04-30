@@ -19,3 +19,6 @@ and ResultDescription =~ "Access has been blocked due to conditional access poli
 | extend State = tostring(LocationDetails.state)
 | project TimeGenerated, OperationName, ResultDescription, Identity, Location, City, State, IPAddress, AppDisplayName, ClientAppUsed
 | sort by TimeGenerated desc
+
+NOTE:
+This KQL query will look to see if this activity has showed up somewhere in the last 14 days. You can change this if you want.
