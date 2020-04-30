@@ -1,6 +1,6 @@
 Title: MFA is disabled for a user
 
-Tactic: Credential Access
+Tactic: Impact
 
 Data Source: AuditLogs
 
