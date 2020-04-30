@@ -17,3 +17,4 @@ and ResultDescription =~ "Access has been blocked due to conditional access poli
 | extend City = tostring(LocationDetails.city) 
 | extend State = tostring(LocationDetails.state)
 | project TimeGenerated, OperationName, ResultDescription, Identity, Location, City, State, IPAddress, AppDisplayName, ClientAppUsed
+| sort by TimeGenerated desc
