@@ -1,0 +1,21 @@
+Title: MFA is disabled for a user
+
+Tactic: Credential Access
+
+Data Source: AuditLogs
+
+Description:
+This KQL query will look if someone has disabled MFA for a user.
+
+KQL Query:
+
+let starttime = 14d;
+let endtime = 0d;
+AuditLogs
+| where TimeGenerated between(ago(starttime)..ago(endtime))
+| where OperationName == ("Disable Strong Authentication") or OperationName == ("Delete application password for user")
+| extend IniatedBy = tostring(parse_json(tostring(InitiatedBy.user)).userPrincipalName) 
+| extend UserPrincipalName = tostring(TargetResources[0].userPrincipalName)
+| project ActivityDateTime, IniatedBy, UserPrincipalName, ActivityDisplayName, Result
+
+NOTE: This KQL query will look if this activity has happend between the last 14 days. Feel free to change this if you want.
