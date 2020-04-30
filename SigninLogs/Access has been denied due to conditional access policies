@@ -10,7 +10,7 @@ Tactic: Initial Access
 KQL Query:
 
 let starttime = 14d;
-let endtime = 1d;
+let endtime = 0d;
 SigninLogs
 | where TimeGenerated between(ago(starttime)..ago(endtime))
 | where OperationName == "Sign-in activity" 
