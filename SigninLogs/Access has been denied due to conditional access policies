@@ -21,4 +21,4 @@ and ResultDescription =~ "Access has been blocked due to conditional access poli
 | sort by TimeGenerated desc
 
 NOTE:
-This KQL query will look to see if this activity has showed up somewhere in the last 14 days. You can change this if you want.
+This KQL query will look to see if this activity has showed up somewhere between the last 14 days. You can change this if you want.
