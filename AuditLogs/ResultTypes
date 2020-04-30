@@ -1,0 +1,58 @@
+Summary:
+
+AuditLogs contains information, such as Sign-in activities. 
+Every sign-in activity has a ''ResultType'' property that might be interesting to understand.
+Understanding the different ResultTypes will be useful to filter on specific sign-in logs.
+
+0: Successfull login
+
+50076: User did not pass the MFA challenge (non interactive).
+
+50074: User did not pass the MFA challenge.
+
+50072: Users needs to enroll for second factor authentication (interactive).
+
+50126: Invalid username or password or Invalid on-premise username or password.
+
+50140: This error occurred due to 'Keep me signed in' interrupt when the user was signing-in.
+
+50133: Session is invalid due to expiration or recent password change.
+
+500121: Other
+
+50058: The application tried to perform a silent sign in and the user could not be silently signed in. The application needs to start an interactive flow giving users an option to sign in. Contact app owner.
+
+16000: Other
+
+90094: Other
+
+53003: Access has been blocked due to conditional access policies.
+
+50089: Flow token expired - Authentication Failed. Have user try signing-in again with username -password.
+
+50097: Device Authentication Required - DeviceId -DeviceAltSecId claims are null OR no device corresponding to the device identifier exists.
+
+530032: Other
+
+50173: Fresh auth token is needed. Have the user re-sign using fresh credentials.
+
+50078: Other
+
+50079: User needs to enroll for second factor authentication.
+
+50129: Device is not Workplace joined - Workplace join is required to register the device.
+
+50158: External security challenge was not satisfied.
+
+50201: Other
+
+50020: User is unauthorized - unable to issue tokens because of version issue - issuer name is not specified - problems with issuer name (null -max length). Contact the app owner.
+
+81012: The user trying to sign in to Azure AD is different from the user signed into the device.
+
+65001: Application X doesn't have permission to access application Y or the permission has been revoked. Or The user or administrator has not consented to use the application with ID X. Send an interactive authorization request for this user and resource. Or The user or administrator has not consented to use the application with ID X. Send an authorization request to your tenant admin to act on behalf of the App : Y for Resource : Z.
+
+50057: User account is disabled. The account has been disabled by an administrator.
+
+
+
