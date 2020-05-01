@@ -14,7 +14,7 @@ let endtime = 0d;
 SigninLogs
 | where TimeGenerated between(ago(starttime)..ago(endtime))
 | where OperationName == "Sign-in activity" 
-and ResultDescription =~ "Access has been blocked due to conditional access policies."
+and ResultDescription =~ "Access has been blocked due to conditional access policies." and ResultType == "53003"
 | extend City = tostring(LocationDetails.city) 
 | extend State = tostring(LocationDetails.state)
 | project TimeGenerated, OperationName, ResultDescription, Identity, Location, City, State, IPAddress, AppDisplayName, ClientAppUsed
