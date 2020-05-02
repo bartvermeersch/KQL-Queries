@@ -27,3 +27,5 @@ AuditLogs
 | extend ExpirationTime = tostring(AdditionalDetails[3].value)
 | project-rename IniatedBy = Identity1
 | project TimeGenerated, IniatedBy, Identity, DirectoryRole, ExpirationTime, LoggedByService, ResultDescription 
+
+NOTE: The timeframe is set on 3 days, so it will look in this activity appeared in the last 3 days. Feel free to change this.
