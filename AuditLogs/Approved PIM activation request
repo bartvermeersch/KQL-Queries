@@ -9,17 +9,21 @@ Tactic: Privilege Escalation
 
 KQL Query:
 
+let timeframe = 3d;
 AuditLogs
+| where TimeGenerated >= ago(timeframe)
 | where OperationName == "Add member to role completed (PIM activation)"
 | extend TargetResources has "Global Administrator"
-| project TimeGenerated, Identity, TargetResources, LoggedByService  
+| extend AADOperationType has "ActivateRole"
+| project TimeGenerated, Identity, TargetResources, LoggedByService, OperationName, ResultDescription, AdditionalDetails  
 | join kind= inner (
    AuditLogs
    | where OperationName == "Add member to role request approved (PIM activation)"
    | extend TargetResources has "Global Administrator"
-   | project TimeGenerated, Identity, TargetResources, LoggedByService    
+   | extend AADOperationType has "ApproveRoleActivation"
+   | project TimeGenerated, Identity, TargetResources, LoggedByService, OperationName, ResultDescription, AdditionalDetails  
 ) on LoggedByService
 | extend DirectoryRole = tostring(TargetResources[0].displayName)
+| extend ExpirationTime = tostring(AdditionalDetails[3].value)
 | project-rename IniatedBy = Identity1
-| project TimeGenerated, IniatedBy, Identity, DirectoryRole, LoggedByService
-| sort by TimeGenerated desc
+| project TimeGenerated, IniatedBy, Identity, DirectoryRole, ExpirationTime, LoggedByService, ResultDescription 
