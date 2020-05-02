@@ -1,0 +1,25 @@
+Title: Approve PIM activation request
+
+Description:
+This KQL query looks to see which user has approved a PIM request, but especially for the Global Administrator role.
+
+Data Source: AuditLogs
+
+Tactic: Privilege Escalation
+
+KQL Query:
+
+AuditLogs
+| where OperationName == "Add member to role completed (PIM activation)"
+| extend TargetResources has "Global Administrator"
+| project TimeGenerated, Identity, TargetResources, LoggedByService  
+| join kind= inner (
+   AuditLogs
+   | where OperationName == "Add member to role request approved (PIM activation)"
+   | extend TargetResources has "Global Administrator"
+   | project TimeGenerated, Identity, TargetResources, LoggedByService    
+) on LoggedByService
+| extend DirectoryRole = tostring(TargetResources[0].displayName)
+| project-rename IniatedBy = Identity1
+| project TimeGenerated, IniatedBy, Identity, DirectoryRole, LoggedByService
+| sort by TimeGenerated desc
