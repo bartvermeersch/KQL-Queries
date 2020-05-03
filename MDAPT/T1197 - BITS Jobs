@@ -4,8 +4,9 @@ Description: BitsAdmin is a built-in Windows tool that can used to download arbi
 
 Table: DeviceProcessEvents
 
-NOTE: Windows Defender doesn't block it, when using BitsAdmin. Try CertUtil and it gets blocked.
-Defender ATP doesn't alert on it.
+NOTE: Windows Defender doesn't block it when using BitsAdmin, so you can use Bitsadmin get Invoke-Kerberoast.ps1 on a box.
+If you try CertUtil it will be blocked immediately by Windows Defender.
+
 
 Tested on: 05/03/2020
 
