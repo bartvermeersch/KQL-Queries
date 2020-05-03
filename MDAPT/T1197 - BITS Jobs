@@ -1,8 +1,8 @@
 Title: BITS Jobs
 
-Description: BitsAdmin is a built-in Windows tool that can used to download arbitary files on the internet.
+Reference: https://attack.mitre.org/techniques/T1197/
 
-Table: DeviceProcessEvents
+Description: BitsAdmin is a built-in Windows tool that can used to download arbitary files on the internet.
 
 NOTE: Windows Defender doesn't block it when using BitsAdmin, so you can use Bitsadmin get Invoke-Kerberoast.ps1 on a box.
 If you try CertUtil it will be blocked immediately by Windows Defender.
