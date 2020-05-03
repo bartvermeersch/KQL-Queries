@@ -11,7 +11,8 @@ reg.exe add hkcu\software\classes\ms-settings\shell\open\command /ve /d "C:\Wind
 reg.exe add hkcu\software\classes\ms-settings\shell\open\command /v "DelegateExecute" /f
 fodhelper.exe
 
-NOTE: Defender ATP doesn't alert on this. This has been tested on 05/03/2020
+NOTE: Defender ATP doesn't alert on this. This has been tested on 05/03/2020.
+Also this query is still in test phase. It might get updated to improve the quality and reduce the false positives that it might have.
 
 KQL Query:
 
