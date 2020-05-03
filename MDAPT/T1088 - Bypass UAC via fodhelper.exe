@@ -1,9 +1,9 @@
-Title: T1008 - Bypassing UAC via fodhelper.exe
+Title: T1008 - Bypass UAC via fodhelper.exe
 
 Reference: https://attack.mitre.org/techniques/T1088/
 
 Description:
-There is a way to bypass UAC via Windows 10 Features on Demand Helper (fodhelper.exe)
+There is a way to bypass UAC via Windows 10 Features on Demand Helper (C:\Windows\System32\fodhelper.exe)
 
 Test plan:
 
@@ -11,7 +11,22 @@ reg.exe add hkcu\software\classes\ms-settings\shell\open\command /ve /d "C:\Wind
 reg.exe add hkcu\software\classes\ms-settings\shell\open\command /v "DelegateExecute" /f
 fodhelper.exe
 
+NOTE: Defender ATP doesn't alert on this. This has been tested on 05/03/2020
+
 KQL Query:
 
-
-
+// T1008 - Bypass UAC via fodhelper.exe
+// Reference: https://attack.mitre.org/techniques/T1088/
+DeviceProcessEvents 
+| where Timestamp >= ago(7d)
+| where FolderPath == "C:\\Windows\\System32\\reg.exe" 
+and ProcessCommandLine has "hkcu\\software\\classes\\ms-settings\\shell\\open\\command" and ProcessCommandLine contains "cmd"
+| project Timestamp, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime
+| join kind= inner (
+    DeviceProcessEvents
+    | where FolderPath == "C:\\Windows\\System32\\fodhelper.exe"
+    and ProcessCommandLine contains "fodhelper"
+    | project Timestamp, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime
+    ) on AccountName
+    | project-rename LOLBin = FolderPath1
+    | project Timestamp, FolderPath, LOLBin, ProcessCommandLine, AccountDomain, AccountName, ProcessCreationTime
