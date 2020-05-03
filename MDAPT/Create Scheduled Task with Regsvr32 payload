@@ -1,0 +1,17 @@
+Title: T1053 - Create Scheduled Task with Regsvr32 payload
+
+Reference: APT32 has used this technique in their operations. 
+https://www.fireeye.com/blog/threat-research/2017/05/cyber-espionage-apt32.html
+
+Table: DeviceProcessEvents
+
+KQL Query:
+
+// T1053 - Create Scheduled Task with Regsvr32 payload
+// Reference: https://www.fireeye.com/blog/threat-research/2017/05/cyber-espionage-apt32.html
+DeviceProcessEvents
+| where Timestamp >= ago(7d)
+| where FolderPath =~ "C:\\Windows\\System32\\schtasks.exe" and ProcessCommandLine contains "/i:http"
+and ProcessCommandLine contains "regsvr32"
+| project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, InitiatingProcessCreationTime
+| sort by Timestamp desc
