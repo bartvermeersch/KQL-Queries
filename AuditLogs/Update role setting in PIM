@@ -1,0 +1,17 @@
+Title: Update role settin in PIM
+
+Description:
+This query finds out when a user has changed a (role) setting at an Directory Role in PIM.
+
+Data Source: AuditLogs
+
+KQL Query:
+
+// An (role) setting has been modfied at an Directory Role in PIM
+let timeframe = 7d;
+AuditLogs
+| where TimeGenerated >= ago(timeframe)
+| where OperationName == "Update role setting in PIM" and AADOperationType == "UpdatePolicy"
+| extend DirectoryRole = tostring(TargetResources[0].displayName)
+| project TimeGenerated, Identity, OperationName, DirectoryRole, LoggedByService, Result
+| sort by TimeGenerated desc
