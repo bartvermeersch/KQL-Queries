@@ -8,6 +8,7 @@ Security monitoring and control mechanisms may be in place for system utilities 
 
 NOTE: This KQL query excluses .dll and other extensions, because of the noise that might be generated through print drivers.
 This means that it will ONLY look for .exe extensions. It's not perfect, but I'm working on it to improve it.
+Which means that this KQL query might be updated soon!
 
 KQL Query:
 
