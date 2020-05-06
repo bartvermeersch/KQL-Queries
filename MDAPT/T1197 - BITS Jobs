@@ -21,5 +21,5 @@ KQL Query:
 DeviceProcessEvents
 | where Timestamp >= ago(7d)
 | where FolderPath == "C:\\Windows\\System32\\bitsadmin.exe" and ProcessCommandLine contains "http"
-| project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime
+| project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime, DeviceId, ReportId
 | sort by Timestamp desc
