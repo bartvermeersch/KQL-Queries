@@ -6,6 +6,9 @@ Description:
 Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities. 
 Security monitoring and control mechanisms may be in place for system utilities adversaries are capable of abusing
 
+NOTE: This KQL query excluses .dll and other extensions, because of the noise that might be generated through print drivers.
+This means that it will ONLY look for .exe extensions. It's not perfect, but I'm working on it to improve it.
+
 KQL Query:
 
 // T1036.003 - Masquerading: Rename System Utilities 
@@ -13,9 +16,10 @@ KQL Query:
 let timeframe = 14d;
 DeviceFileEvents
 | where Timestamp >= ago(timeframe)
-| where ActionType == "FileRenamed" and FolderPath contains "C:\\Windows\\System32\\"
+| where ActionType == "FileRenamed" and FolderPath has "C:\\Windows\\System32\\"
 | where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
 | project Timestamp, DeviceName, ActionType, FileName, FolderPath, InitiatingProcessFolderPath, InitiatingProcessCreationTime, InitiatingProcessCommandLine, 
 RequestAccountName, RequestAccountDomain
+| where (FolderPath endswith "exe")
 | order by Timestamp desc
 
