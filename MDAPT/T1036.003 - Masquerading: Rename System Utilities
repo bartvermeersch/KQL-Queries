@@ -6,7 +6,7 @@ Description:
 Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities. 
 Security monitoring and control mechanisms may be in place for system utilities adversaries are capable of abusing
 
-NOTE: This KQL query excluses .dll and other extensions, because of the noise that might be generated through print drivers.
+NOTE: This KQL query excluses .dll and other extensions, because of the noise that it might generate through print drivers.
 This means that it will ONLY look for .exe extensions. It's not perfect, but I'm working on it to improve it.
 Which means that this KQL query might be updated soon!
 
