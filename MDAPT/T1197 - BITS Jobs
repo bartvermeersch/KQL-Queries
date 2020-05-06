@@ -23,3 +23,15 @@ DeviceProcessEvents
 | where FolderPath == "C:\\Windows\\System32\\bitsadmin.exe" and ProcessCommandLine contains "http"
 | project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime, DeviceId, ReportId
 | sort by Timestamp desc
+
+KQL Query: (Start-BitsTransfer cmdlet)
+
+// T1197 - BITS Jobs (PowerShell)
+// Reference: https://attack.mitre.org/techniques/T1197/
+let timeframe = 7d;
+DeviceProcessEvents  
+| where Timestamp >= ago(timeframe)
+| where InitiatingProcessFileName in ("powershell.exe", "POWERSHELL.EXE", "powershell_ise.exe", "POWERSHELL_ISE.EXE") 
+| where ProcessCommandLine has "Start-BitsTransfer" and ProcessCommandLine contains "http"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountDomain, AccountName
+| sort by Timestamp desc
