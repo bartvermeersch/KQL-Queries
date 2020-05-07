@@ -9,6 +9,8 @@ Tactic: Privilege Escalation
 
 KQL Query:
 
+// An user was approved to get Global Admin privileges
+// Twitter: @DebugPrivilege
 let timeframe = 3d;
 AuditLogs
 | where TimeGenerated >= ago(timeframe)
