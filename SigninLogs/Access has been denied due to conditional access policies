@@ -9,16 +9,19 @@ Tactic: Initial Access
 
 KQL Query:
 
+// KQL query to find out which user has been denied due to conditional access policies
+// Twitter: @DebugPrivilege
 let starttime = 14d;
 let endtime = 0d;
 SigninLogs
 | where TimeGenerated between(ago(starttime)..ago(endtime))
 | where OperationName == "Sign-in activity" 
 and ResultDescription =~ "Access has been blocked due to conditional access policies." and ResultType == "53003"
-| extend City = tostring(LocationDetails.city) 
+| extend City = tostring(http://LocationDetails.city) 
 | extend State = tostring(LocationDetails.state)
-| project TimeGenerated, OperationName, ResultDescription, Identity, Location, City, State, IPAddress, AppDisplayName, ClientAppUsed
-| sort by TimeGenerated desc
+| summarize StartTimeUtc = min(TimeGenerated), IPAddresses = makeset(IPAddress), DistinctIPCount = dcount(IPAddress), any(AppDisplayName), 
+AttemptCount = count() by Identity, Location, City, State, ClientAppUsed
+| project-rename AppDisplayName = any_AppDisplayName
+| sort by StartTimeUtc desc
 
-NOTE:
-This KQL query will look to see if this activity has showed up somewhere between the last 14 days. You can change this if you want.
+Updated: 7-5-2020
