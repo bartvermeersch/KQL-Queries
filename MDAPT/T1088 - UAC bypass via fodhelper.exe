@@ -29,5 +29,5 @@ and ProcessCommandLine has "hkcu\\software\\classes\\ms-settings\\shell\\open\\c
     and ProcessCommandLine contains "fodhelper"
     | project Timestamp, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime
     ) on AccountName
-    | project-rename LOLBin = FolderPath1
-    | project Timestamp, FolderPath, LOLBin, ProcessCommandLine, AccountDomain, AccountName, ProcessCreationTime
+    | project-rename WindowsBinary = FolderPath1
+    | project Timestamp, FolderPath, WindowsBinary, ProcessCommandLine, AccountDomain, AccountName, ProcessCreationTime
