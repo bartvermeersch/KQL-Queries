@@ -19,8 +19,8 @@ SigninLogs
 and ResultDescription =~ "Access has been blocked due to conditional access policies." and ResultType == "53003"
 | extend City = tostring(http://LocationDetails.city) 
 | extend State = tostring(LocationDetails.state)
-| summarize StartTimeUtc = min(TimeGenerated), IPAddresses = makeset(IPAddress), DistinctIPCount = dcount(IPAddress), any(AppDisplayName), 
-AttemptCount = count() by Identity, Location, City, State, ClientAppUsed
+| summarize StartTimeUtc = min(TimeGenerated), DistinctIPCount = dcount(IPAddress), any(AppDisplayName), 
+AttemptCount = count() by Identity, Location, City, State, ClientAppUsed, IPAddress
 | project-rename AppDisplayName = any_AppDisplayName
 | sort by StartTimeUtc desc
 
