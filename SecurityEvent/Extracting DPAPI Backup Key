@@ -1,0 +1,24 @@
+Title: Extracting DPAPI Backup Key
+
+Tactic: Credential Access
+
+Data Source: Log of Domain Controllers
+
+KQL Query:
+
+// Extract DPAPI Backup Key from Domain Controller
+// Reference: https://github.com/gentilkiwi/mimikatz/wiki/module-~-dpapi
+let timeframe = 3d;
+SecurityEvent
+| where TimeGenerated >= ago(timeframe)
+| where EventID == 4662
+| where ObjectName == "Policy\\Secrets\\G$BCKUPKEY_PREFERRED"
+| project TimeGenerated, Account, Computer, Activity, SubjectLogonId, Object-Name, ObjectType
+| join (
+   SecurityEvent
+   | where EventID == 4624 and LogonType == 3
+   | project EventID, Account, LogonType, TargetLogonId 
+   | project-rename SubjectLogonId = TargetLogonId  
+) on SubjectLogonId
+| project TimeGenerated, Account, Computer, Activity, ObjectName, ObjectType, LogonType
+| sort by TimeGenerated desc
