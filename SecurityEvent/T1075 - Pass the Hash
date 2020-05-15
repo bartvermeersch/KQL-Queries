@@ -1,0 +1,25 @@
+Title: T1075 - Pass the Hash
+
+Tactic: Lateral Movement
+
+Data Source: Authentication Logs
+
+KQL Query:
+
+// T1075 – Possible Pass the Hash operation
+// Reference: https://attack.mitre.org/techniques/T1075/
+let timeframe = 3d;
+SecurityEvent
+| where TimeGenerated >= ago(timeframe)
+| where EventID == 4624 and LogonType == 9
+| where TargetOutboundUserName != ""
+| project TimeGenerated, Account, Activity, TargetOutboundUserName, LogonGuid, LogonType
+| join (
+   SecurityEvent
+   | where TimeGenerated >= ago(timeframe)
+   | where EventID == 4648 and AccountType == "User"
+   | where TargetServerName != ""
+   | project TargetServerName, TargetInfo, TargetAccount, LogonGuid  
+) on LogonGuid
+| project TimeGenerated, Account, Activity, TargetAccount, TargetServerName, TargetInfo, LogonType
+| sort by TimeGenerated desc
