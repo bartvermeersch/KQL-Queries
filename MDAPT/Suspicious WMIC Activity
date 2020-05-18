@@ -15,9 +15,5 @@ DeviceProcessEvents
     or ProcessCommandLine has "useraccount"
     or ProcessCommandLine has "/node:"
     or ProcessCommandLine contains "http"
-    or ProcessCommandLine has "CommandLineEventConsumer"
-    or ProcessCommandLine has "__EventFilter"
-    or ProcessCommandLine has "__FilterToConsumerBinding"
-    or ProcessCommandLine has "ActiveScriptEventConsumer"
 | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
 | sort by Timestamp desc
