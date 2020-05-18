@@ -37,5 +37,5 @@ DeviceProcessEvents
 | where Timestamp >= ago(timeframe)
 | where InitiatingProcessFileName in ("powershell.exe", "POWERSHELL.EXE", "powershell_ise.exe", "POWERSHELL_ISE.EXE") 
 | where ProcessCommandLine has "Start-BitsTransfer" and ProcessCommandLine contains "http"
-| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountDomain, AccountName
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountDomain, AccountName, DeviceId, ReportId
 | sort by Timestamp desc
