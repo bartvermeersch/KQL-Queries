@@ -19,7 +19,7 @@ DeviceFileEvents
 | where Timestamp >= ago(timeframe)
 | where ActionType == "FileRenamed" and FolderPath has "C:\\Windows\\System32\\"
 | where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
-| project Timestamp, DeviceName, ActionType, FileName, FolderPath, InitiatingProcessFolderPath, InitiatingProcessCreationTime, InitiatingProcessCommandLine, 
+| project Timestamp, DeviceName, ActionType, FileName, FolderPath, InitiatingProcessFolderPath, InitiatingProcessCreationTime, InitiatingProcessCommandLine, DeviceId, ReportId 
 RequestAccountName, RequestAccountDomain
 | where (FolderPath endswith "exe")
 | order by Timestamp desc
