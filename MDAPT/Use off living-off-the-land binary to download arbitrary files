@@ -1,0 +1,39 @@
+Title: Use of living-off-the-land binary to download arbitrary files
+Author: @DebugPrivilege
+Creation_date: 05/03/2020
+Platform: Windows
+ATT&CK:
+  Technique: T1197
+  Reference: https://attack.mitre.org/techniques/T1197/
+  
+Hypothesis: Adversaries may abuse BITS to download, execute, and even clean up after running malicious code. 
+BITS tasks are self-contained in the BITS job database, without new files or registry modifications, and often permitted by host firewalls.
+Description: -| BITS Jobs can be used to download arbitrary files and run it on a compromised host.
+
+Detection:
+  Alert_rule: Use off living-off-the-land binary to download arbitrary files
+  Severity: Low
+  Category: Defense Evasion
+  MITRE Technique: T1197 - BITS Jobs
+  
+KQL Query: 
+
+// T1197 - BITS Jobs
+// Reference: https://attack.mitre.org/techniques/T1197/
+DeviceProcessEvents
+| where Timestamp >= ago(7d)
+| where FolderPath == "C:\\Windows\\System32\\bitsadmin.exe" and ProcessCommandLine contains "http"
+| project Timestamp, DeviceName, FolderPath, ProcessCommandLine, AccountDomain, AccountName, InitiatingProcessFolderPath, ProcessCreationTime, DeviceId, ReportId
+| sort by Timestamp desc
+
+KQL Query: (2)
+
+// T1197 - BITS Jobs (PowerShell)
+// Reference: https://attack.mitre.org/techniques/T1197/
+let timeframe = 7d;
+DeviceProcessEvents  
+| where Timestamp >= ago(timeframe)
+| where InitiatingProcessFileName in ("powershell.exe", "POWERSHELL.EXE", "powershell_ise.exe", "POWERSHELL_ISE.EXE") 
+| where ProcessCommandLine has "Start-BitsTransfer" and ProcessCommandLine contains "http"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, AccountDomain, AccountName, DeviceId, ReportId
+| sort by Timestamp desc
