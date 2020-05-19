@@ -1,0 +1,35 @@
+Title: Registry queried for RDP sessions
+Author: @DebugPrivilege
+Creation_date: 05/19/2020
+Platform: Windows
+Permissions_required:
+  - User
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  Technique: T1012
+  Reference: https://attack.mitre.org/techniques/T1012/
+  
+Hypothesis: Adversaries may query this query to find recent RDP sessions of a user, which can be determine where the user has access to.
+Description: -| Information about (recently) RDP sessions are stored in a registry key and can be queried to determine where the user
+was recently logged on to through Remote Desktop.
+
+Detection:
+  Alert_rule: Registry queried for RDP sessions
+  Severity: Low
+  Category: Discovery
+  MITRE Technique: T1012 - Query Registry
+  
+KQL Query:
+
+// T1012 - Registry queried for RDP sessions
+// Reference: https://attack.mitre.org/techniques/T1012/
+// Twitter: @DebugPrivilege
+let timeframe = 7d;
+DeviceProcessEvents
+| where Timestamp >= ago(timeframe)
+| where FileName == "reg.exe"
+| where ProcessCommandLine has "query"
+| where ProcessCommandLine contains "Software\\Microsoft\\Terminal Server Client\\Default"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
+| sort by Timestamp desc
