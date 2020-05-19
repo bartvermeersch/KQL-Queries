@@ -29,9 +29,3 @@ DeviceProcessEvents
     or ProcessCommandLine has "+s"
 | project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
 | sort by Timestamp desc
-
-
-
-
-
-
