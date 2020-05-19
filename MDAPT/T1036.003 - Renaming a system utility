@@ -1,0 +1,33 @@
+Title: Renaming a system utility
+Author: @DebugPrivilege
+Creation_date: 05/19/2020
+Platform: Windows
+Permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  Sub_technique: T1036.003
+  Reference: https://attack.mitre.org/beta/techniques/T1036/003/
+  
+Hypothesis: Adversaries may rename legitimate system utilities to try to evade security mechanisms concerning the usage of those utilities.
+Description: -| None
+
+Detection:
+  Alert_rule: Renaming a system utility
+  Severity: Medium
+  Category: Defense Evasion
+  MITRE Technique: T0136 - Masquarading
+  
+KQL Query:
+
+// T1036.003 - Masquerading: Rename System Utilities 
+// Reference: https://attack.mitre.org/beta/techniques/T1036/003/
+let timeframe = 7d;
+DeviceFileEvents
+| where Timestamp >= ago(timeframe)
+| where ActionType == "FileRenamed" and FolderPath has "C:\\Windows\\System32\\"
+| where InitiatingProcessTokenElevation == "TokenElevationTypeFull"
+| project Timestamp, DeviceName, ActionType, FileName, FolderPath, InitiatingProcessFolderPath, InitiatingProcessCreationTime, InitiatingProcessCommandLine, DeviceId, ReportId 
+RequestAccountName, RequestAccountDomain
+| where (FolderPath endswith "exe")
+| order by Timestamp desc
