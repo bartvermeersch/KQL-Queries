@@ -14,7 +14,7 @@ The function of the attrib command is to set, change or remove such file attribu
 you can make files read-only, archive, system and hidden.
 
 Detection:
-  Alert_rule: Use off living-off-the-land binary to hide files and directories
+  Alert_title: Use off living-off-the-land binary to hide files and directories
   Severity: Low
   Category: Defense Evasion
   MITRE Technique: T1158 - Hidden Files and Directories
