@@ -15,7 +15,7 @@ BITS tasks are self-contained in the BITS job database, without new files or reg
 Description: -| BITS Jobs can be used to download arbitrary files and run it on a compromised host.
 
 Detection:
-  Alert_rule: Use off living-off-the-land binary to download arbitrary files
+  Alert_title: Use off living-off-the-land binary to download arbitrary files
   Severity: Low
   Category: Defense Evasion
   MITRE Technique: T1197 - BITS Jobs
