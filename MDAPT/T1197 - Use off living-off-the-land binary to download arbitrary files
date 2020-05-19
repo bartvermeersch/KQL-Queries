@@ -2,6 +2,10 @@ Title: Use of living-off-the-land binary to download arbitrary files
 Author: @DebugPrivilege
 Creation_date: 05/03/2020
 Platform: Windows
+Permission Required:
+  - User
+  - Administrator
+  - SYSTEM
 ATT&CK:
   Technique: T1197
   Reference: https://attack.mitre.org/techniques/T1197/
