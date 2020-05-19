@@ -6,7 +6,7 @@ ATT&CK:
   Technique: T1158
   
 Hypothesis: Adversaries can use this to their advantage to hide files and folders anywhere on the system for persistence
-Description: |- Attrib.exe is a Windows component that allows you to display or change File Attributes. 
+Description: -| Attrib.exe is a Windows component that allows you to display or change File Attributes. 
 The function of the attrib command is to set, change or remove such file attributes Using the attrib command, 
 you can make files read-only, archive, system and hidden.
 
