@@ -4,8 +4,6 @@ Creation_date: 05/19/2020
 Platform: Windows
 Permissions_required:
   - User
-  - Administrator
-  - SYSTEM
 ATT&CK:
   Technique: T1158
   Reference: https://attack.mitre.org/techniques/T1158/
