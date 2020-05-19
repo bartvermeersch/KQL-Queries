@@ -13,7 +13,7 @@ Hypothesis: Adversaries may rename legitimate system utilities to try to evade s
 Description: -| None
 
 Detection:
-  Alert_rule: Renaming a system utility
+  Alert_title: Renaming a system utility
   Severity: Medium
   Category: Defense Evasion
   MITRE Technique: T0136 - Masquarading
