@@ -15,7 +15,7 @@ Description: -| Information about (recently) RDP sessions are stored in a regist
 was recently logged on to through Remote Desktop.
 
 Detection:
-  Alert_rule: Registry queried for RDP sessions
+  Alert_title: Registry queried for RDP sessions
   Severity: Low
   Category: Discovery
   MITRE Technique: T1012 - Query Registry
