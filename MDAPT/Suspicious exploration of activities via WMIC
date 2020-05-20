@@ -1,0 +1,35 @@
+Title: Suspicious exploration of activities via WMIC
+Author: @DebugPrivilege
+Creation_date: 05/20/2020
+Platform: Windows
+Permissions_required:
+  - User
+ATT&CK:
+  T1087 - Account Discovery
+  T1069 - Permission Groups Discovery
+  T1082 - System Information Discovery
+
+Hypothesis: An adversary can use WMI to interact with local and remote systems and use it as a means to perform many tactic functions, 
+such as gathering information for Discovery and remote Execution of files as part of Lateral Movement. 
+Description: -| None
+
+Detection:
+  Alert_title: Suspicious exploration of activities via WMIC
+  Severity: Low
+  Category: Discovery
+  MITRE Technique: T1082 - System Information Discovery
+  
+KQL Query:
+
+// Suspicious exploration of activities via WMIC
+// Twitter: @DebugPrivilege
+DeviceProcessEvents  
+| where Timestamp > ago(7d)
+| where FolderPath contains "C:\\Windows\\System32\\wbem"
+| where ProcessCommandLine has "path antivirusproduct"
+    or ProcessCommandLine has "path firewallproduct"
+    or ProcessCommandLine has "ntdomain"
+    or ProcessCommandLine has "useraccount"
+    or ProcessCommandLine has "group"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
+| sort by Timestamp desc
