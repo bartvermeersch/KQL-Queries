@@ -1,0 +1,33 @@
+Title: WMI persistence using WMIC
+Author: @DebugPrivilege
+Creation_date: 05/20/2020
+Platform: Windows
+Permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1084 - Windows Management Instrumentation
+
+Hypothesis: Adversaries may use the capabilities of WMI to subscribe to an event and execute arbitrary code 
+when that event occurs, providing persistence on a system.
+Description: -| None
+
+Detection:
+  Alert_title: Suspicious execution attempt via WMI
+  Severity: Medium
+  Category: Persistence
+  MITRE Technique: T1084 - Windows Management Instrumentation Event Subscription
+  
+KQL Query:
+
+// WMI persistence using WMIC
+// Reference: https://attack.mitre.org/beta/techniques/T1546/003/
+DeviceProcessEvents  
+| where Timestamp > ago(7d)
+| where FolderPath contains "C:\\Windows\\System32\\wbem"
+| where ProcessCommandLine has "PATH __EventFilter CREATE"
+    or ProcessCommandLine has "PATH CommandLineEventConsumer CREATE"
+    or ProcessCommandLine has "PATH __FilterToConsumerBinding CREATE"
+    or ProcessCommandLine has "PATH ActiveScriptEventConsumer CREATE"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
+| sort by Timestamp desc
