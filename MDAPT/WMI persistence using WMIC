@@ -13,7 +13,7 @@ when that event occurs, providing persistence on a system.
 Description: -| None
 
 Detection:
-  Alert_title: Suspicious execution attempt via WMI
+  Alert_title: WMI persistence using WMIC
   Severity: Medium
   Category: Persistence
   MITRE Technique: T1084 - Windows Management Instrumentation Event Subscription
