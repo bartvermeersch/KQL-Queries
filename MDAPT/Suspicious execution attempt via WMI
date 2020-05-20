@@ -1,0 +1,35 @@
+Title: Suspicious execution attempt via WMI
+Author: @DebugPrivilege
+Creation_date: 05/20/2020
+Platform: Windows
+Permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1084 - Windows Management Instrumentation
+
+Hypothesis: An adversary can use WMI to interact with local and remote systems and use it as a means to perform many tactic functions, 
+such as gathering information for Discovery and remote Execution of files as part of Lateral Movement. 
+Description: -| None
+
+Detection:
+  Alert_title: Suspicious execution attempt via WMI
+  Severity: Medium
+  Category: Execution
+  MITRE Technique: T1084 - Windows Management Instrumentation
+  
+KQL Query:
+
+// Suspicious exectution attempt via WMI
+// Twitter: @DebugPrivilege
+DeviceProcessEvents  
+| where Timestamp > ago(7d)
+| where FolderPath contains "C:\\Windows\\System32\\wbem"
+| where ProcessCommandLine has "process call create"
+    or ProcessCommandLine has "process" "call" "create"
+    or ProcessCommandLine has "service call create"
+    or ProcessCommandLine has "service" "call" "create"
+    or ProcessCommandLine contains "call create"
+    or ProcessCommandLine has "/node:"
+| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
+| sort by Timestamp desc
