@@ -2,6 +2,7 @@ title: Suspicious process executed via WMI
 author: @DebugPrivilege
 creation_date: 05/20/2020
 platform: Windows
+falsepositives: Still testing and fine-tuning.
 permissions_required:
   - Administrator
   - SYSTEM
