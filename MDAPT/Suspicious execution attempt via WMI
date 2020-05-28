@@ -1,8 +1,8 @@
-Title: Suspicious execution attempt via WMI
-Author: @DebugPrivilege
-Creation_date: 05/20/2020
-Platform: Windows
-Permissions_required:
+title: Suspicious process executed via WMI
+author: @DebugPrivilege
+creation_date: 05/20/2020
+platform: Windows
+permissions_required:
   - Administrator
   - SYSTEM
 ATT&CK:
@@ -13,23 +13,18 @@ such as gathering information for Discovery and remote Execution of files as par
 Description: -| None
 
 Detection:
-  Alert_title: Suspicious execution attempt via WMI
-  Severity: Medium
-  Category: Execution
-  MITRE Technique: T1084 - Windows Management Instrumentation
+  alert_title: Suspicious execution attempt via WMI
+  severity: Medium
+  category: Execution
+  technique: T1084 - Windows Management Instrumentation
   
 KQL Query:
 
-// Suspicious exectution attempt via WMI
+// Suspicious process executed via WMI
 // Twitter: @DebugPrivilege
-DeviceProcessEvents  
-| where Timestamp > ago(7d)
-| where FolderPath contains "C:\\Windows\\System32\\wbem"
-| where ProcessCommandLine has "process call create"
-    or ProcessCommandLine has "process" "call" "create"
-    or ProcessCommandLine has "service call create"
-    or ProcessCommandLine has "service" "call" "create"
-    or ProcessCommandLine contains "call create"
-    or ProcessCommandLine has "/node:"
-| project Timestamp, DeviceName, InitiatingProcessFileName, FileName, ProcessCommandLine, DeviceId, ReportId
+let timeframe = 7d;
+DeviceEvents
+| where Timestamp >= ago(timeframe)
+| where ActionType == "ProcessCreatedUsingWmiQuery"
+| project Timestamp, DeviceId, DeviceName, RemoteDeviceName, AccountDomain, AccountName, FileName, FolderPath, InitiatingProcessFileName, InitiatingProcessFolderPath, ProcessCommandLine, ReportId
 | sort by Timestamp desc
