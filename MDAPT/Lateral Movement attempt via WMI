@@ -32,7 +32,7 @@ DeviceEvents
     DeviceProcessEvents
     | where InitiatingProcessParentFileName == "WmiPrvSE.exe"
     | where ProcessCommandLine != ""
-    | project ProcessCommandLine, InitiatingProcessAccountName
+    | project ProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessParentFileName
     ) on InitiatingProcessAccountName
     | project-away InitiatingProcessAccountName1
     | sort by Timestamp desc
