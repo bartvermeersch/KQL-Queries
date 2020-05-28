@@ -13,7 +13,7 @@ such as gathering information for Discovery and remote Execution of files as par
 Description: -| None
 
 Detection:
-  alert_title: Suspicious execution attempt via WMI
+  alert_title: Suspicious process executed via WMI
   severity: Medium
   category: Execution
   technique: T1084 - Windows Management Instrumentation
