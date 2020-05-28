@@ -1,0 +1,38 @@
+title: Lateral movement attempt via WMI
+author: @DebugPrivilege
+creation_date: 05/28/2020
+platform: Windows
+permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1084 - Windows Management Instrumentation
+
+Hypothesis: An adversary can use WMI to interact with local and remote systems and use it as a means to perform many tactic functions, 
+such as gathering information for Discovery and remote Execution of files as part of Lateral Movement. 
+Description: -| WMIExec is a well-known tool that adversaries might use in their operations.
+
+Detection:
+  alert_title: Lateral movement attempt via WMI
+  severity: Medium
+  category: Lateral movement
+  technique: T1084 - Windows Management Instrumentation
+  
+KQL Query:
+
+// Lateral Movement attempt via WMI
+// Reference: https://attack.mitre.org/techniques/T1047/
+let timeframe = 7d;
+DeviceEvents
+| where Timestamp >= ago(timeframe)
+| where ActionType == "RemoteWmiOperation"
+| project Timestamp, DeviceId, DeviceName, RemoteDeviceName, ActionType, InitiatingProcessAccountName, AdditionalFields, ReportId
+| sort by Timestamp desc
+| join (
+    DeviceProcessEvents
+    | where InitiatingProcessParentFileName == "WmiPrvSE.exe"
+    | where ProcessCommandLine != ""
+    | project ProcessCommandLine, InitiatingProcessAccountName
+    ) on InitiatingProcessAccountName
+    | project-away InitiatingProcessAccountName1
+    | sort by Timestamp desc
