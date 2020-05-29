@@ -22,6 +22,7 @@ KQL Query:
 
 // Lateral Movement attempt via WMI
 // Reference: https://attack.mitre.org/techniques/T1047/
+// Twitter: @DebugPrivilege
 let timeframe = 7d;
 DeviceEvents
 | where Timestamp >= ago(timeframe)
