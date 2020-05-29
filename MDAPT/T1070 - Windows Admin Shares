@@ -41,4 +41,4 @@ DeviceFileEvents
    
  Falsepositives:
   This might generate a false positive when PsExec is legitimate used to execute a remote process or when a scheduled task
-  is deployed from one machine remotely to another machine. (Yes, I have tested this in a lab environment)
+  is deployed from one machine remotely to another machine. Yes, I have tested this in a lab environment.
