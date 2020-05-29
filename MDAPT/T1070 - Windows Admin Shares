@@ -23,7 +23,6 @@ KQL Query:
 
 // T1077 - Lateral Movement via Windows Admin Shares
 // Reference: https://attack.mitre.org/techniques/T1077/
-// Twitter: @DebugPrivilege
 let timeframe = 7d;
 DeviceFileEvents
 | where Timestamp >= ago(timeframe)
@@ -32,6 +31,7 @@ DeviceFileEvents
 // Extra information on what command-line was typed in
 | join (
     DeviceFileEvents
+    | where Timestamp >= ago(timeframe)
     | where InitiatingProcessFileName != "System"
     | project FileName, InitiatingProcessFileName, InitiatingProcessCommandLine
     ) on FileName
