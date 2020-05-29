@@ -1,0 +1,39 @@
+title: Lateral movement via Windows Admin Shares
+author: @DebugPrivilege
+creation_date: 05/29/2020
+platform: Windows
+permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1077 - Windows Admin Shares
+
+Hypothesis: Adversaries may use this technique in conjunction with administrator-level Valid Accounts to remotely access a networked system over server message block (SMB) to interact with systems 
+using remote procedure calls (RPCs), transfer files, and run transferred binaries through remote Execution.
+Description: -| Well-known examples are things such as, using PsExec to execute a remote process or deploying a scheduled task
+on a remote host. 
+
+Detection:
+  alert_title: Lateral movement via Windows Admin Shares
+  severity: Medium
+  category: Lateral movement
+  technique: T1077 - Windows Admin Shares
+  
+KQL Query:
+
+// T1077 - Lateral Movement via Windows Admin Shares
+// Reference: https://attack.mitre.org/techniques/T1077/
+// Twitter: @DebugPrivilege
+let timeframe = 7d;
+DeviceFileEvents
+| where Timestamp >= ago(timeframe)
+| where RequestProtocol == "Smb"
+| project Timestamp, DeviceName, RequestSourceIP, RequestAccountDomain, RequestAccountName, FileName, FolderPath, RequestProtocol, ShareName
+// Extra information on what command-line was typed in
+| join (
+    DeviceFileEvents
+    | where InitiatingProcessFileName != "System"
+    | project FileName, InitiatingProcessFileName, InitiatingProcessCommandLine
+    ) on FileName
+    | project-away FileName1
+    | sort by Timestamp desc
