@@ -27,7 +27,6 @@ DeviceEvents
 | where Timestamp >= ago(timeframe)
 | where ActionType == "RemoteWmiOperation"
 | project Timestamp, DeviceId, DeviceName, RemoteDeviceName, ActionType, InitiatingProcessAccountName, AdditionalFields, ReportId
-| sort by Timestamp desc
 | join (
     DeviceProcessEvents
     | where Timestamp >= ago(timeframe)
