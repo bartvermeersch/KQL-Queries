@@ -30,6 +30,7 @@ DeviceEvents
 | sort by Timestamp desc
 | join (
     DeviceProcessEvents
+    | where Timestamp >= ago(timeframe)
     | where InitiatingProcessParentFileName == "WmiPrvSE.exe"
     | where ProcessCommandLine != ""
     | project ProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessParentFileName
