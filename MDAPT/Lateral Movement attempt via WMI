@@ -31,7 +31,7 @@ DeviceEvents
     DeviceProcessEvents
     | where Timestamp >= ago(timeframe)
     | where InitiatingProcessParentFileName == "WmiPrvSE.exe"
-    | where ProcessCommandLine !contains "conhost.exe"
+    | where ProcessCommandLine !has "conhost.exe"
     | project ProcessCommandLine, InitiatingProcessAccountName, InitiatingProcessParentFileName
     ) on InitiatingProcessAccountName
     | project-away InitiatingProcessAccountName1
