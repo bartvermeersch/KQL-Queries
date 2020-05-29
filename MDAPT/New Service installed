@@ -1,0 +1,33 @@
+title: A new service was installed remotely on a host
+author: @DebugPrivilege
+creation_date: 05/29/2020
+platform: Windows
+permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1050 - New Service
+
+Hypothesis: Adversaries may install a new service that can be configured to execute at startup 
+by using utilities to interact with services or by directly modifying the Registry.
+Description: -| 
+
+Detection:
+  alert_title: A new service was installed remotely on a host
+  severity: Medium
+  category: Persistence
+  technique: T1050 - New Service
+  
+KQL Query:
+
+// T050 - New Service
+// Reference: https://attack.mitre.org/techniques/T1050/
+// Author: @DebugPrivilege
+let timeframe = 7d;
+DeviceNetworkEvents
+| where Timestamp >= ago(timeframe)
+| where ActionType == "ConnectionSuccess" and RemotePort == 135
+| where InitiatingProcessFileName == "sc.exe"
+| project Timestamp, DeviceName, RemoteIP, RemotePort, RemoteUrl, LocalIP, InitiatingProcessCommandLine, InitiatingProcessParentFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName, InitiatingProcessFileName, DeviceId, ReportId
+| project-reorder Timestamp, DeviceName, LocalIP, RemoteIP, RemoteUrl, RemotePort, InitiatingProcessCommandLine, InitiatingProcessParentFileName, InitiatingProcessFileName, InitiatingProcessAccountDomain, InitiatingProcessAccountName, DeviceId, ReportId
+| sort by Timestamp desc
