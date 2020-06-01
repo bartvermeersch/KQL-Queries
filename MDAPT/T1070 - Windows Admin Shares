@@ -27,7 +27,7 @@ let timeframe = 7d;
 DeviceFileEvents
 | where Timestamp >= ago(timeframe)
 | where RequestProtocol == "Smb"
-| project Timestamp, DeviceName, RequestSourceIP, RequestAccountDomain, RequestAccountName, FileName, FolderPath, RequestProtocol, ShareName
+| project Timestamp, DeviceName, RequestSourceIP, RequestAccountDomain, RequestAccountName, FileName, FolderPath, RequestProtocol, ShareName, DeviceId, ReportId
 // Extra information on what command-line was typed in
 | join (
     DeviceFileEvents
