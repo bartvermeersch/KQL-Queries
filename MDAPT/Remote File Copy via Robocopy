@@ -27,7 +27,7 @@ let timeframe = 7d;
 DeviceFileEvents
 | where Timestamp >= ago(timeframe)
 | where RequestProtocol == "Smb"
-| project RequestProtocol, FileName, InitiatingProcessCommandLine, RequestSourceIP, ShareName
+| project DeviceName, RequestProtocol, FileName, InitiatingProcessCommandLine, RequestSourceIP, ShareName
 // RequestSourceIP shows on which host files were copied to another host.
 | join (
     DeviceFileEvents
