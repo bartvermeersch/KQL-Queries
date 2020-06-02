@@ -1,0 +1,37 @@
+title: Remote File Copy via Robocopy
+author: @DebugPrivilege
+creation_date: 06/02/2020
+platform: Windows
+permissions_required:
+  - Administrator
+  - SYSTEM
+ATT&CK:
+  T1105 - Remote File Copy
+
+Hypothesis: Adversaries may also copy files laterally between internal victim systems to support Lateral Movement with remote Execution using inherent file sharing protocols 
+such as file sharing over SMB to connected network shares or with authenticated connections with Windows Admin Shares for example.
+Description: -| 
+
+Detection:
+  alert_title: Remote File Copy via Robocopy
+  severity: Medium
+  category: Lateral movement
+  technique: T1105 - Remote File Copy
+  
+KQL Query:
+
+// T1105 - Remote File Copy via robocopy.exe
+// Reference: https://attack.mitre.org/techniques/T1105/
+let timeframe = 7d;
+// Robocopy uses SMB to copy files over a remote host
+DeviceFileEvents
+| where Timestamp >= ago(timeframe)
+| where RequestProtocol == "Smb"
+// RequestSourceIP shows on which host files were copied to another host.
+| join (
+    DeviceFileEvents
+    | where InitiatingProcessFileName == "Robocopy.exe"
+    ) on FileName
+    | project Timestamp, DeviceName, FileName, FolderPath, RequestAccountDomain, RequestAccountName, RequestSourceIP, RequestProtocol, ShareName, InitiatingProcessCommandLine1, DeviceId, ReportId
+    | project-rename ProcessCommandLine = InitiatingProcessCommandLine1
+    | sort by Timestamp desc
