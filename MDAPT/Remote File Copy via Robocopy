@@ -13,7 +13,7 @@ such as file sharing over SMB to connected network shares or with authenticated 
 Description: -| 
 
 Detection:
-  alert_title: Remote File Copy via Robocopy
+  alert_title: A remote file was copied to a host via Robocopy
   severity: Medium
   category: Lateral movement
   technique: T1105 - Remote File Copy
