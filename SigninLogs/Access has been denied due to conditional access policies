@@ -17,7 +17,7 @@ SigninLogs
 | where TimeGenerated between(ago(starttime)..ago(endtime))
 | where OperationName == "Sign-in activity" 
 and ResultDescription =~ "Access has been blocked due to conditional access policies." and ResultType == "53003"
-| extend City = tostring(http://LocationDetails.city) 
+| extend City = tostring(LocationDetails.city) 
 | extend State = tostring(LocationDetails.state)
 | summarize StartTimeUtc = min(TimeGenerated), EndTimeUtc = max(TimeGenerated), DistinctIPCount = dcount(IPAddress), any(AppDisplayName), 
 AttemptCount = count() by Identity, Location, City, State, ClientAppUsed, IPAddress
