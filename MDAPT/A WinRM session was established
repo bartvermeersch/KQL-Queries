@@ -1,0 +1,28 @@
+title: A WinRM session was established
+author: @DebugPrivilege
+creation_date: 06/02/2020
+platform: Windows
+permissions_required:
+  - User
+  - Administrator
+ATT&CK:
+  T1028 - Windows Remote Management
+
+Hypothesis: Adversaries may use WinRM to interact with a remote system (e.g., run an executable, modify the Registry, modify services).
+Description: -| WinRM command might be used by the adversary to do so. 
+
+Detection:
+  alert_title: A WinRM session was established
+  severity: Medium
+  category: Lateral movement
+  technique: T1028 - Windows Remote Management
+  
+KQL Query:
+
+// T1028 - A WinRM session was established
+// Reference: https://attack.mitre.org/techniques/T1028/
+let timeframe = 7d;
+DeviceNetworkEvents
+| where InitiatingProcessFileName == "winrs.exe"
+| where ActionType == "ConnectionSuccess"
+| sort by Timestamp desc
